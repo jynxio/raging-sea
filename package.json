@@ -1,0 +1,20 @@
+{
+    "name": "tsukiyomi",
+    "version": "0.0.0",
+    "license": "MIT",
+    "author": "jynxio",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "start": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "vite": "^3.1.0"
+    },
+    "dependencies": {
+        "lil-gui": "^0.17.0",
+        "stats-js": "^1.0.1",
+        "three": "^0.144.0"
+    }
+}
