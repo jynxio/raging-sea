@@ -4,6 +4,7 @@ import "/style/reset.css";
 /* js */
 import * as three from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import * as dat from "lil-gui";
 
 /* shader */
 import vertex_shader from "./shader/vertex.glsl?raw";
@@ -35,7 +36,6 @@ scene.add( camera );
 const controls = new OrbitControls( camera, renderer.domElement );
 
 controls.enableDamping = true;
-controls.target = new three.Vector3( 0, 0, 0.01 );
 
 /* Resize */
 globalThis.addEventListener( "resize", _ => {
@@ -49,7 +49,11 @@ globalThis.addEventListener( "resize", _ => {
 } );
 
 /* Render */
+const clock = new three.Clock();
+
 renderer.setAnimationLoop( function loop() {
+
+    const elapsed_time = clock.getElapsedTime();
 
     controls.update();
 
@@ -59,29 +63,17 @@ renderer.setAnimationLoop( function loop() {
 
 /* ------------------------------------------------------------------------------------------------------ */
 /* Camera */
-camera.translateZ( - 1 );
+camera.position.set( 1, 1, 1 );
+
+/* Debug */
+const gui = new dat.GUI( { width: 340 } );
 
 /* Plane */
-const geometry = new three.PlaneGeometry( 1, 1, 50, 50 );
-
-const count = geometry.attributes.position.count;
-const randoms = new Float32Array( count );
-
-for ( let i = 0; i < count; i++ ) {
-
-    randoms[ i ] = Math.random();
-
-}
-
-geometry.setAttribute( "aRandom", new three.BufferAttribute( randoms, 1) );
-
-const material = new three.RawShaderMaterial( {
-    vertexShader: vertex_shader,
-    fragmentShader: fragment_shader,
-    side: three.DoubleSide,
-    wireframe: true,
-} );
+const geometry = new three.PlaneGeometry( 2, 2, 128, 128 );
+const material = new three.MeshBasicMaterial();
 const mesh = new three.Mesh( geometry, material );
+
+mesh.rotation.x = - Math.PI * 0.5;
 
 scene.add( mesh );
 
