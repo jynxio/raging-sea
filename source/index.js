@@ -70,7 +70,10 @@ const gui = new dat.GUI( { width: 340 } );
 
 /* Plane */
 const geometry = new three.PlaneGeometry( 2, 2, 128, 128 );
-const material = new three.MeshBasicMaterial();
+const material = new three.ShaderMaterial( {
+    vertexShader: vertex_shader,
+    fragmentShader: fragment_shader,
+} );
 const mesh = new three.Mesh( geometry, material );
 
 mesh.rotation.x = - Math.PI * 0.5;
