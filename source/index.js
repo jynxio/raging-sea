@@ -65,18 +65,23 @@ renderer.setAnimationLoop( function loop() {
 /* Camera */
 camera.position.set( 1, 1, 1 );
 
-/* Debug */
-const gui = new dat.GUI( { width: 340 } );
-
 /* Plane */
 const geometry = new three.PlaneGeometry( 2, 2, 128, 128 );
 const material = new three.ShaderMaterial( {
     vertexShader: vertex_shader,
     fragmentShader: fragment_shader,
+    uniforms: {
+        uBigWavesElevation: { value: 0.2 },
+        uBigWavesFrequency: { value: new three.Vector2( 4, 1.5 ) },
+    }
 } );
 const mesh = new three.Mesh( geometry, material );
 
 mesh.rotation.x = - Math.PI * 0.5;
-
 scene.add( mesh );
+
+/* Debug */
+const gui = new dat.GUI( { width: 340 } );
+
+gui.add( material.uniforms.uBigWavesElevation, "value" ).min( 0 ).max( 1 ).step( 0.001 ).name( "uBigWavesElevation" );
 
