@@ -48,19 +48,6 @@ globalThis.addEventListener( "resize", _ => {
 
 } );
 
-/* Render */
-const clock = new three.Clock();
-
-renderer.setAnimationLoop( function loop() {
-
-    const elapsed_time = clock.getElapsedTime();
-
-    controls.update();
-
-    renderer.render( scene, camera );
-
-} );
-
 /* ------------------------------------------------------------------------------------------------------ */
 /* Camera */
 camera.position.set( 1, 1, 1 );
@@ -71,8 +58,9 @@ const material = new three.ShaderMaterial( {
     vertexShader: vertex_shader,
     fragmentShader: fragment_shader,
     uniforms: {
-        uBigWavesElevation: { value: 0.2 },
-        uBigWavesFrequency: { value: new three.Vector2( 4, 1.5 ) },
+        uElevation: { value: 0.2 },
+        uFrequency: { value: new three.Vector2( 4, 1.5 ) },
+        uTime: { value: 0 },
     }
 } );
 const mesh = new three.Mesh( geometry, material );
@@ -83,5 +71,20 @@ scene.add( mesh );
 /* Debug */
 const gui = new dat.GUI( { width: 340 } );
 
-gui.add( material.uniforms.uBigWavesElevation, "value" ).min( 0 ).max( 1 ).step( 0.001 ).name( "uBigWavesElevation" );
+gui.add( material.uniforms.uElevation, "value" ).min( 0 ).max( 1 ).step( 0.001 ).name( "uElevation" );
+gui.add( material.uniforms.uFrequency.value, "x" ).min( 0 ).max( 10 ).step( 0.001 ).name( "uFrequencyX" );
+gui.add( material.uniforms.uFrequency.value, "y" ).min( 0 ).max( 10 ).step( 0.001 ).name( "uFrequencyY" );
 
+/* Render */
+const clock = new three.Clock();
+
+renderer.setAnimationLoop( function loop() {
+
+    const elapsed_time = clock.getElapsedTime();
+
+    material.uniforms.uTime.value = elapsed_time;
+
+    controls.update();
+    renderer.render( scene, camera );
+
+} );
