@@ -1,7 +1,11 @@
-uniform float uElevation;
-uniform vec2 uFrequency;
+uniform float uBigElevation;
+uniform vec2 uBigFrequency;
+uniform float uBigSpeed;
+uniform float uSmallElevation;
+uniform float uSmallFrequency;
+uniform float uSmallSpeed;
+uniform float uSmallIterations;
 uniform float uTime;
-uniform float uSpeed;
 
 varying float vElevation;
 
@@ -94,13 +98,13 @@ void main() {
 
     vec4 modelPosition = modelMatrix * vec4( position, 1.0 );
     float elevation =
-        sin( modelPosition.x * uFrequency.x + uTime * uSpeed ) *
-        sin( modelPosition.z * uFrequency.y + uTime * uSpeed ) *
-        uElevation;
+        sin( modelPosition.x * uBigFrequency.x + uTime * uBigSpeed ) *
+        sin( modelPosition.z * uBigFrequency.y + uTime * uBigSpeed ) *
+        uBigElevation;
 
-    for ( float i = 1.0; i <= 3.0; i++ ) {
+    for ( float i = 1.0; i <= uSmallIterations; i++ ) {
 
-        elevation -= abs( cnoise( vec3( modelPosition.xz * 3.0, uTime * 0.2 ) ) * 0.15 );
+        elevation += abs( cnoise( vec3( modelPosition.xz * uSmallFrequency * i, uTime * uSmallSpeed ) ) * uSmallElevation / i );
 
     }
 
