@@ -53,6 +53,8 @@ globalThis.addEventListener( "resize", _ => {
 camera.position.set( 1, 1, 1 );
 
 /* Plane */
+const initial_depth_color = 0x186691;
+const initial_surface_color = 0x9bd8ff;
 const geometry = new three.PlaneGeometry( 2, 2, 128, 128 );
 const material = new three.ShaderMaterial( {
     vertexShader: vertex_shader,
@@ -61,6 +63,11 @@ const material = new three.ShaderMaterial( {
         uElevation: { value: 0.2 },
         uFrequency: { value: new three.Vector2( 4, 1.5 ) },
         uTime: { value: 0 },
+        uSpeed: { value: 0.75 },
+        uDepthColor: { value: new three.Color( initial_depth_color ) },
+        uSurfaceColor: { value: new three.Color( initial_surface_color ) },
+        uColorOffset: { value: 0.08 },
+        uColorMultiplier: { value: 5 },
     }
 } );
 const mesh = new three.Mesh( geometry, material );
@@ -70,10 +77,20 @@ scene.add( mesh );
 
 /* Debug */
 const gui = new dat.GUI( { width: 340 } );
+const debug_object = {
+    depthColor: initial_depth_color,
+    surfaceColor: initial_surface_color,
+};
 
 gui.add( material.uniforms.uElevation, "value" ).min( 0 ).max( 1 ).step( 0.001 ).name( "uElevation" );
 gui.add( material.uniforms.uFrequency.value, "x" ).min( 0 ).max( 10 ).step( 0.001 ).name( "uFrequencyX" );
 gui.add( material.uniforms.uFrequency.value, "y" ).min( 0 ).max( 10 ).step( 0.001 ).name( "uFrequencyY" );
+gui.add( material.uniforms.uSpeed, "value" ).min( 0 ).max( 4 ).step( 0.001 ).name( "uSpeed" );
+gui.add( material.uniforms.uColorOffset, "value" ).min( 0 ).max( 1 ).step( 0.001 ).name( "uColorOffset" );
+gui.add( material.uniforms.uColorMultiplier, "value" ).min( 0 ).max( 10 ).step( 0.001 ).name( "uColorMultiplier" );
+
+gui.addColor( debug_object, "depthColor" ).onChange( _ => material.uniforms.uDepthColor.value.set( debug_object.depthColor ) );
+gui.addColor( debug_object, "surfaceColor" ).onChange( _ => material.uniforms.uSurfaceColor.value.set( debug_object.surfaceColor ) );
 
 /* Render */
 const clock = new three.Clock();
