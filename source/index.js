@@ -53,8 +53,8 @@ globalThis.addEventListener( "resize", _ => {
 camera.position.set( 1, 1, 1 );
 
 /* Plane */
-const initial_depth_color = 0xffffff;   // 0x186691
-const initial_surface_color = 0xffffff; // 0x9bd8ff
+const initial_depth_color = 0x186691;   // 0x186691
+const initial_surface_color = 0x9bd8ff; // 0x9bd8ff
 const geometry = new three.PlaneGeometry( 10, 10, 512, 512 );
 const material = new three.ShaderMaterial( {
     wireframe: false,
@@ -73,6 +73,7 @@ const material = new three.ShaderMaterial( {
         uSurfaceColor: { value: new three.Color( initial_surface_color ) },
         uColorOffset: { value: 0.08 },
         uColorMultiplier: { value: 5 },
+        uResolution: { value: new three.Vector2( globalThis.innerWidth, globalThis.innerHeight ) },
     }
 } );
 const mesh = new three.Mesh( geometry, material );
