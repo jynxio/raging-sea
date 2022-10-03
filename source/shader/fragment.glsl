@@ -13,10 +13,10 @@ void main() {
     vec2 pixelIndex = floor( vUv / pixelStep ); // 0, 1, 2, 3, ...
     vec2 pixelIndex4 = mod( pixelIndex, 4.0 ); // 0, 1, 2, 3, 0, 1, 2, 3, ..., 0, 1, 2, 3
     mat4 pattern = mat4(
-        0.0, 1.0, 0.0, 1.0,
         0.0, 1.0, 1.0, 1.0,
-        0.0, 1.0, 0.0, 1.0,
-        1.0, 1.0, 0.0, 1.0
+        0.0, 1.0, 1.0, 1.0,
+        0.0, 1.0, 1.0, 1.0,
+        0.0, 0.0, 0.0, 0.0
     );
     vec4 row = vec4( // 取y行
         step( 0.0, 0.5 - pixelIndex4.y ),
