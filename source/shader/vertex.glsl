@@ -6,8 +6,11 @@ uniform float uSmallFrequency;
 uniform float uSmallSpeed;
 uniform float uSmallIterations;
 uniform float uTime;
+uniform vec2 uResolution;
 
 varying float vElevation;
+varying vec2 vResolution;
+varying vec2 vUv;
 
 /* Classic Perlin 3D Noise (by Stefan Gustavson) */
 /* ------------------------------------------------------------------------------------ */
@@ -96,6 +99,9 @@ float cnoise( vec3 P ) {
 
 void main() {
 
+    vUv = uv;
+    vResolution = uResolution;
+
     vec4 modelPosition = modelMatrix * vec4( position, 1.0 );
     float elevation =
         sin( modelPosition.x * uBigFrequency.x + uTime * uBigSpeed ) *
@@ -104,7 +110,7 @@ void main() {
 
     for ( float i = 1.0; i <= uSmallIterations; i++ ) {
 
-        elevation += abs( cnoise( vec3( modelPosition.xz * uSmallFrequency * i, uTime * uSmallSpeed ) ) * uSmallElevation / i );
+        elevation -= abs( cnoise( vec3( modelPosition.xz * uSmallFrequency * i, uTime * uSmallSpeed ) ) * uSmallElevation / i );
 
     }
 
