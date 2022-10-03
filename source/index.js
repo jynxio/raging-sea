@@ -53,8 +53,8 @@ globalThis.addEventListener( "resize", _ => {
 camera.position.set( 1, 1, 1 );
 
 /* Plane */
-const initial_depth_color = 0x186691;
-const initial_surface_color = 0x9bd8ff;
+const initial_depth_color = 0xffffff;   // 0x186691
+const initial_surface_color = 0xffffff; // 0x9bd8ff
 const geometry = new three.PlaneGeometry( 10, 10, 512, 512 );
 const material = new three.ShaderMaterial( {
     wireframe: false,
@@ -79,30 +79,6 @@ const mesh = new three.Mesh( geometry, material );
 
 mesh.rotation.x = - Math.PI * 0.5;
 scene.add( mesh );
-
-const material_bone = new three.ShaderMaterial( {
-    wireframe: true,
-    vertexShader: vertex_shader,
-    fragmentShader: fragment_shader,
-    uniforms: {
-        uBigElevation: { value: 0.2 },
-        uBigFrequency: { value: new three.Vector2( 4, 1.5 ) },
-        uBigSpeed: { value: 0.75 },
-        uSmallElevation: { value: 0.15 },
-        uSmallFrequency: { value: 3 },
-        uSmallSpeed: { value: 0.2 },
-        uSmallIterations: { value: 4 },
-        uTime: { value: 0 },
-        uDepthColor: { value: new three.Color( initial_depth_color ) },
-        uSurfaceColor: { value: new three.Color( initial_surface_color ) },
-        uColorOffset: { value: 0.08 },
-        uColorMultiplier: { value: 5 },
-    }
-} );
-const mesh_bone = new three.Mesh( geometry, material_bone );
-
-mesh_bone.rotation.x = - Math.PI * 0.5;
-scene.add( mesh_bone );
 
 /* Debug */
 const gui = new dat.GUI( { width: 340 } );
@@ -133,8 +109,6 @@ renderer.setAnimationLoop( function loop() {
     const elapsed_time = clock.getElapsedTime();
 
     material.uniforms.uTime.value = elapsed_time;
-
-    material_bone.uniforms.uTime.value = elapsed_time;
 
     controls.update();
     renderer.render( scene, camera );
