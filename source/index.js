@@ -57,7 +57,7 @@ const initial_depth_color = 0xffffff;   // 0x186691
 const initial_surface_color = 0x000000; // 0x9bd8ff
 const geometry = new three.PlaneGeometry( 2, 2, 1024, 1024 );
 const material = new three.ShaderMaterial( {
-    wireframe: false,
+    wireframe: true,
     vertexShader: vertex_shader,
     fragmentShader: fragment_shader,
     uniforms: {
