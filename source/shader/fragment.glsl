@@ -33,6 +33,9 @@ void main() {
     float strength = length( col * pattern * row );
 
     // float strength = ( vElevation + uColorOffset ) * uColorMultiplier;
+
+    strength = ( vElevation + uColorOffset ) * uColorMultiplier;
+
     vec3 color = mix( uDepthColor, uSurfaceColor, strength );
 
     gl_FragColor = vec4( color, 1.0 );
