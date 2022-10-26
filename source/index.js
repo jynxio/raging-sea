@@ -53,11 +53,11 @@ globalThis.addEventListener( "resize", _ => {
 camera.position.set( 1, 1, 1 );
 
 /* Plane */
-const initial_depth_color = 0xffffff;   // 0x186691
-const initial_surface_color = 0x000000; // 0x9bd8ff
-const geometry = new three.PlaneGeometry( 2, 2, 1024, 1024 );
+const initial_depth_color = 0x186691;
+const initial_surface_color = 0x9bd8ff;
+const geometry = new three.PlaneGeometry( 2, 2, 512, 512 );
 const material = new three.ShaderMaterial( {
-    wireframe: true,
+    wireframe: false,
     vertexShader: vertex_shader,
     fragmentShader: fragment_shader,
     uniforms: {
@@ -115,5 +115,3 @@ renderer.setAnimationLoop( function loop() {
     renderer.render( scene, camera );
 
 } );
-
-// Fog
